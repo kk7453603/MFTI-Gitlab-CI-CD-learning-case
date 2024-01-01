@@ -1,0 +1,23 @@
+# Используйте базовый образ Ubuntu
+FROM ubuntu:latest
+
+# Установите зависимости системы
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip
+
+
+RUN pip3 install --upgrade pip
+
+# Установите зависимости проекта
+COPY requirements.txt /tmp
+RUN pip3 install -r /tmp/requirements.txt
+
+# Скопируйте все файлы проекта в образ
+COPY main.py task_1.py main_test.py /app/
+
+# Установите рабочую директорию внутри контейнера
+WORKDIR /app
+
+# Запустите приложение
+CMD python3 main.py

@@ -1,0 +1,25 @@
+stages:
+  - test
+
+build-job-ubuntu:
+  stage: test
+  image: kirillkom/lab_4_mfti:ubuntu_img
+  before_script:
+    - echo "Запуск unit тестов ubuntu"
+  script:
+    - python3 -m unittest main_test.py
+  artifacts:
+    paths:
+      - "app/"
+
+build-job-centos:
+  stage: test
+  image: kirillkom/lab_4_mfti:centos_img
+  before_script:
+    - echo "Запуск unit тестов ubuntu"
+  script:
+    - python3 -m unittest main_test.py
+  artifacts:
+    paths:
+      - "app/"
+
