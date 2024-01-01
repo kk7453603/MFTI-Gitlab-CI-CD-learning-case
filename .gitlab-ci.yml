@@ -1,6 +1,10 @@
 stages:
   - test
 
+default:
+  tags:
+    - docker_pd
+
 build-job-ubuntu:
   stage: test
   image: kirillkom/lab_4_mfti:ubuntu_img
