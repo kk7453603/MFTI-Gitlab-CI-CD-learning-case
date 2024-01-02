@@ -2,7 +2,7 @@ stages:
   - test
   - deploy
 
-build-job-ubuntu 1/2:
+build-job-ubuntu-1/2:
   stage: test
   image: kirillkom/ubuntu_img:latest
   before_script:
@@ -14,18 +14,18 @@ build-job-ubuntu 1/2:
     paths:
       - "app/"
 
-build-job-centos 2/2:
+build-job-centos-2/2:
   stage: test
   image: kirillkom/lab_4_mfti:centos_img
   before_script:
-    - echo "Запуск unit тестов ubuntu"
+    - echo "Запуск unit тестов на CentOS"
   script:
     - python3 -m unittest main_test.py
   artifacts:
     paths:
       - "app/"
 
-deploy-job-ubuntu 1/2:
+deploy-job-ubuntu-1/2:
   stage: deploy
   image: kirillkom/ubuntu_img:latest
   before_script:
@@ -33,6 +33,6 @@ deploy-job-ubuntu 1/2:
   script:
     - ls -al
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "main"
+    - if: '$CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "main"'
       when: manual
 
