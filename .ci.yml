@@ -4,7 +4,7 @@ stages:
 
 build-job-ubuntu:
   stage: test
-  image: kirillkom/lab_4_mfti:ubuntu_img
+  image: kirillkom/ubuntu_img:latest
   before_script:
     - echo "Запуск unit тестов ubuntu"
   script:
