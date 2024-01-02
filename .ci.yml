@@ -31,25 +31,51 @@ deploy-job-ubuntu:
     - echo "Деплой приложения на ОС Ubuntu"
   script:
     - ls -al
-rules:
-  - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "dev"' # Если источник пайплайна - push в ветку "dev"
-    changes:
-      - '**/*'
-    when: always
-    pipeline: test
 
-  - if: '$CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "staging"' # Если источник пайплайна - merge request в ветку "staging"
-    changes:
-      - '**/*'
-    when: always
-    pipeline:
-      - test
-      - deploy
+# При push в ветку dev запускается частичный пайплайн (только test задания)
+test_pipeline:
+  stage: test
+  script:
+    - echo "Запуск частичного пайплайна (только test)"
+    - echo "Выполнение тестов для dev"
+  rules:
+    - exists:
+        - $CI_COMMIT_REF_NAME
+    - changes:
+        - app/**/*  # Выполнить пайплайн только если были изменения в папке "app"
 
-  - if: '$CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "main"' # Если источник пайплайна - merge request в ветку "main"
-    changes:
-      - '**/*'
-    when: always
-    pipeline:
-      - test
-      - deploy
+# При Merge Request из dev в staging запускается полный пайплайн (test + deploy задания)
+staging_pipeline:
+  stage: test
+  script:
+    - echo "Запуск полного пайплайна (test + deploy)"
+    - echo "Выполнение тестов для staging"
+  rules:
+    - exists:
+        - $CI_COMMIT_REF_NAME
+    - changes:
+        - app/**/*  # Выполнить пайплайн только если были изменения в папке "app"
+    - exists:
+        - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - changes:
+        - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME:**/*
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME:**/*
+
+# При Merge Request из staging в main запускается полный пайплайн (test + deploy задания)
+main_pipeline:
+  stage: test
+  script:
+    - echo "Запуск полного пайплайна (test + deploy)"
+    - echo "Выполнение тестов для main"
+  rules:
+    - exists:
+        - $CI_COMMIT_REF_NAME
+    - changes:
+        - app/**/*  # Выполнить пайплайн только если были изменения в папке "app"
+    - exists:
+        - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    - changes:
+        - $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME:**/*
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME:**/*
