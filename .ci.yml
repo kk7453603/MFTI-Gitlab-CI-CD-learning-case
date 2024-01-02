@@ -1,6 +1,6 @@
 stages:
   - test
-  - deploy
+#  - deploy
 
 build-job-ubuntu-1/2:
   stage: test
@@ -25,14 +25,14 @@ build-job-centos-2/2:
     paths:
       - "app/"
 
-deploy-job-ubuntu-1/2:
-  stage: deploy
-  image: kirillkom/ubuntu_img:latest
-  before_script:
-    - echo "Деплой приложения на ОС Ubuntu"
-  script:
-    - ls -al
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == "main"'
-      when: manual
+#deploy-job-ubuntu-1/2:
+#  stage: deploy
+#  image: kirillkom/ubuntu_img:latest
+#  before_script:
+#    - echo "Деплой приложения на ОС Ubuntu"
+#  script:
+#    - ls -al
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == "main"
+#      when: manual
 
