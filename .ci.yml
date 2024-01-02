@@ -1,9 +1,6 @@
 stages:
   - test
 
-default:
-  tags:
-    - docker_pd
 
 build-job-ubuntu:
   stage: test
