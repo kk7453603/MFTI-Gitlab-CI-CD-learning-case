@@ -1,6 +1,6 @@
 stages:
   - test
-
+  - deploy
 
 build-job-ubuntu:
   stage: test
@@ -24,3 +24,32 @@ build-job-centos:
     paths:
       - "app/"
 
+deploy-job-ubuntu:
+  stage: deploy
+  image: kirillkom/ubuntu_img:latest
+  before_script:
+    - echo "Деплой приложения на ОС Ubuntu"
+  script:
+    - ls -al
+rules:
+  - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "dev"' # Если источник пайплайна - push в ветку "dev"
+    changes:
+      - '**/*'
+    when: always
+    pipeline: test
+
+  - if: '$CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "staging"' # Если источник пайплайна - merge request в ветку "staging"
+    changes:
+      - '**/*'
+    when: always
+    pipeline:
+      - test
+      - deploy
+
+  - if: '$CI_PIPELINE_SOURCE == "merge_request" && $CI_COMMIT_REF_NAME == "main"' # Если источник пайплайна - merge request в ветку "main"
+    changes:
+      - '**/*'
+    when: always
+    pipeline:
+      - test
+      - deploy
