@@ -12,7 +12,6 @@ test-job-ubuntu 1/2:
     - python3 -m unittest main_test.py
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "dev"'
-      when: on_success
       allow_failure: true
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: manual
