@@ -1,20 +1,25 @@
 stages:
+  - build
   - test
-#  - deploy
+  - deploy
 
-build-job-ubuntu 1/2:
+test-job-ubuntu 1/2:
   stage: test
   image: kirillkom/ubuntu_img:latest
   before_script:
     - echo "Запуск unit тестов ubuntu"
   script:
     - python3 -m unittest main_test.py
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && CI_COMMIT_REF_NAME == "dev"
+      when: on_success
+      allow_failure: true
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
 
-  artifacts:
-    paths:
-      - "app/"
 
-build-job-centos 2/2:
+test-job-centos 2/2:
   stage: test
   image: kirillkom/lab_4_mfti:centos_img
   before_script:
