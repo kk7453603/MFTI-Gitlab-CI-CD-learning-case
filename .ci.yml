@@ -32,7 +32,7 @@ build-deb-job-ubuntu-1/2:
   before_script:
     - echo "Сборка deb пакета приложения для ОС Ubuntu"
   script:
-    - pip install -y PyInstaller
+    - pip install PyInstaller --quiet
     - pyinstaller main.py
     - apt install -y ruby
     - gem install fpm --user-install
