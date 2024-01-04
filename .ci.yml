@@ -39,5 +39,5 @@ build-deb-job-ubuntu-1/2:
     - fpm -C dist/main -s dir -t deb -n "Translator" -v 0.0.1 -p translator.deb
   artifacts:
     paths:
-      - /app/translator.deb
+      - translator.deb
 
