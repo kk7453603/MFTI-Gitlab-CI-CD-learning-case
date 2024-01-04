@@ -32,9 +32,9 @@ build-deb-job-ubuntu-1/2:
   before_script:
     - echo "Сборка deb пакета приложения для ОС Ubuntu"
   script:
-    - pip install PyInstaller
+    - pip install -y PyInstaller
     - pyinstaller main.py
-    - apt install ruby
+    - apt install -y ruby
     - gem install fpm --user-install
     - fpm -C main -s dir -t deb -n "Translator" -v 0.0.1 -p translator.deb
   artifacts:
