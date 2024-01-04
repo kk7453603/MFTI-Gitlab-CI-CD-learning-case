@@ -1,7 +1,7 @@
 stages:
   - build
   - test
-  - deploy
+  - post
 
 test-job-ubuntu 1/2:
   stage: test
@@ -27,7 +27,7 @@ test-job-centos 2/2:
   allow_failure: true
 
 build-deb-job-ubuntu-1/2:
-  stage: deploy
+  stage: post
   image: kirillkom/ubuntu_img:latest
   before_script:
     - echo "Сборка deb пакета приложения для ОС Ubuntu"
