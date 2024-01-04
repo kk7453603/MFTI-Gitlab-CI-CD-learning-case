@@ -36,8 +36,8 @@ build-deb-job-ubuntu-1/2:
     - pyinstaller main.py
     - apt install -y ruby
     - gem install fpm
-    - fpm -C main -s dir -t deb -n "Translator" -v 0.0.1 -p translator.deb
+    - fpm -C dist/main -s dir -t deb -n "Translator" -v 0.0.1 -p translator.deb
   artifacts:
     paths:
-      - translator.deb
+      - /app/translator.deb
 
