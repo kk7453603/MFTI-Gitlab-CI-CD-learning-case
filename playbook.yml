@@ -15,7 +15,7 @@
 
     - name: Получить артефакты GitLab CI
       uri:
-        url: "https://code.mipt.ru/api/v4/projects/16185/jobs/"
+        url: "https://code.mipt.ru//api/v4/projects/16185/jobs/161760"
         dest: "/tmp/artifacts.zip"
         method: GET
         headers:
