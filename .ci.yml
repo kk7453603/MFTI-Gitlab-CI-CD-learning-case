@@ -41,6 +41,6 @@ build-deb-job-ubuntu-1/2:
     paths:
       - translator.deb
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME != "dev"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_COMMIT_REF_NAME == "dev" || $CI_COMMIT_REF_NAME == "staging")'
       when: manual
 
