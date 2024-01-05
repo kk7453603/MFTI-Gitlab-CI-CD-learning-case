@@ -17,14 +17,14 @@ test-job-ubuntu 1/2:
       when: manual
       allow_failure: true
 
-test-job-centos 2/2:
-  stage: test
-  image: kirillkom/lab_4_mfti:centos_img
-  before_script:
-    - echo "Запуск unit тестов на CentOS"
-  script:
-    - python3 -m unittest main_test.py
-  allow_failure: true
+#test-job-centos 2/2:
+#  stage: test
+#  image: kirillkom/lab_4_mfti:centos_img
+#  before_script:
+#    - echo "Запуск unit тестов на CentOS"
+#  script:
+#    - python3 -m unittest main_test.py
+#  allow_failure: true
 
 build-deb-job-ubuntu-1/2:
   stage: post
@@ -40,4 +40,7 @@ build-deb-job-ubuntu-1/2:
   artifacts:
     paths:
       - translator.deb
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME != "dev"'
+      when: manual
 
