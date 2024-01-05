@@ -12,7 +12,27 @@
         state: present
       with_items:
         - dpkg
-        - curl
 
-    - name: Download deb package
+    - name: Получить артефакты GitLab CI
+      uri:
+        url: "https://code.mipt.ru/api/v4/projects/16185/jobs/"
+        dest: "/tmp/artifacts.zip"
+        method: GET
+        headers:
+          PRIVATE-TOKEN: "ZqueDLp_RQGDu6c3KGK3"
+      register: download_info
+      changed_when: false
+
+    - name: Распаковать артефакты
+      unarchive:
+        src: "/tmp/artifacts.zip"
+        dest: "/tmp/artifacts"
+        remote_src: yes
+      when: download_info.status == 200
+
+    - name: Установить deb пакет
+      apt:
+        deb: "/tmp/artifacts/your-package.deb"
+        state: present
+      when: download_info.status == 200
 
