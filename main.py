@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from task_1 import Ui_MainWindow as Mw
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QMainWindow):  
     def __init__(self):
         super().__init__()
         self.ui = Mw()
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         }
         self.ten = {"zwanzig": 20, "dreizig": 30, "vierzig": 40, "funfzig": 50, "sechzig": 60, "siebzig": 70,
                     "achtzig": 80, "neunzig": 90}
-
+        
     def check(self):
         inp_txt = self.ui.input.text()
         parsed_txt = inp_txt.split()
